@@ -1,0 +1,27 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    {% if susers %}
+    {% for u in susers %}
+        <div class="media" style="margin-top:20px;">
+            <a href="{% url 'timeline' u.pk %}"><img class="rounded-circle account-img border border-dark" src="{{ u.profile.image.url }}"></a>
+            <div class="media-body">
+              <h2><a class="account-heading" href="{% url 'timeline' u.pk %}">{{ u.username }}</a></h2>
+              <p>{{ u.email }}</p>
+            {% if cuser != u %}
+             {% if u not in friends or friends == None %}
+            <a href="{% url 'change_friends' operation='add' pk=u.pk %}">
+            <button type="button" class="btn btn-default">Follow</button>
+            </a>
+            {% else %}
+            <a href="{% url 'change_friends' operation='remove' pk=u.pk%}">
+            <button type="button" class="btn btn-default">UnFollow</button>
+            </a>
+            {% endif %}
+            {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    {% else %}
+        <p>No Users Found</p> 
+    {% endif %}
+{% endblock content %}

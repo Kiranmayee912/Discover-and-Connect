@@ -1,0 +1,33 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    {% if posts %}
+      {% for post in posts %}
+          <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+            <div class="media-body">
+              <div class="article-metadata">
+                <a class="mr-2" href="{% url 'timeline' post.author.pk %}">{{ post.author }}</a>
+                <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+              </div>
+                {% if post.title %}
+                  <h2>{{ post.title }}</h2>
+                {% endif %}
+                {% if post.caption %}
+                  <p class="article-content">{{ post.caption }}</p>
+                {% endif %}
+                {% if post.image %}
+                  <img class="img-rounded" src="{{ post.image.url }}" style="width: 40%; float: left; margin-right: 10px;">
+                {% endif %}
+            </div>
+              <h5><a class="article-title" href="{% url 'upload-detail' post.id %}">View</a></h5>
+          </article>
+      {% endfor %}
+    {% else %}
+      <br><br><br>
+      <h2> You Have No Posts To Show Yet!! </h2>
+      <h3> Create a post : </h3>
+      <form action="/upload/new">
+        <button type="submit" class="btn btn-info">Create Post</button>
+      </form>
+    {% endif %}
+{% endblock content %}  

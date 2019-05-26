@@ -1,0 +1,68 @@
+{% load static %}
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ 
+    <style>
+        h1{
+            color: palevioletred;
+            font-weight: 800px;
+            font-family: cursive;
+        }
+      a{
+          color: brown;
+      }
+      body{
+          padding-top: 10%;
+          background-color: snow;
+        }
+        body,input{
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 15px;
+            letter-spacing: 0.0400em;
+        }
+
+        label{
+            display: none;
+        }
+        input::placeholder {
+            color: pink;
+        }
+        ul{
+            display: none;
+        }
+        img{display: block;
+    margin-left: auto;
+    margin-right: auto}
+       
+      </style>
+    <title>DiscoverandConnect</title>
+</head>
+<body>
+<div class="container masthead text-center">
+     <h1>DNC</h1>
+     <a>Hey,Good to see you again!!</a>
+    <div class="col-sm- col-md-5 col-lg-3 mx-auto" style="padding:30px 0;">
+        <form role="form" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" name="commit" value="Login" tabindex="3" class="btn btn-info btn-block" data-disable-with="Logging in…">
+        <small class="text-muted ml-2">
+            <a href="{% url 'password_reset'%}">Forgot Password?</a>
+        </small>
+        </form>
+    <div class="card card-create-user mt-3">
+        <div class="card-body text-center">
+            New to DiscoverAndConnect?
+            <a href="{% url 'register' %}" class="card-link">Create New Account</a>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

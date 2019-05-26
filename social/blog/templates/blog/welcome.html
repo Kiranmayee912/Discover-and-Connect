@@ -1,0 +1,21 @@
+{% include "blog/base.html" %}
+{% block content %}
+    <h1>Discover And Connect</h1>
+    <div>
+        <p>
+            <img src="../../../media/images/social.png" class="left" style="height: 43%; width: 43%;">
+            <h3>Find people around and connect with the better part of the world!!</h3>
+        </p>
+    </div>
+    <div class="list">
+        <ul>
+            <li>Search for a friend</li>
+            <li>Send a Follow request</li>
+            <li>Connect</li>
+            <li>Share</li>
+        </ul>
+        <form action="/register"> 
+            <button type="submit" class="btn btn-info">Get Started Now</button>
+        </form>
+    </div>
+{% endblock content %}
