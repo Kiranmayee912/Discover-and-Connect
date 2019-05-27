@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm,InterestUpdateForm
 from blog.models import Upload
-from .models import Friend
+from .models import Friend,Interest
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -62,12 +62,14 @@ def myposts(request):
 
 @login_required
 def profile(request):
+    inter = Interest.objects.get_or_create(user_id=request.user.id)
+    inter=inter[0]
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST,
                                    request.FILES,
                                    instance=request.user.profile)
-        i_form = InterestUpdateForm(request.POST)
+        i_form = InterestUpdateForm(request.POST,instance=inter)
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
@@ -83,7 +85,7 @@ def profile(request):
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
-        i_form = InterestUpdateForm()
+        i_form = InterestUpdateForm(instance=inter)
     context = {
         'u_form': u_form,
         'p_form': p_form,
