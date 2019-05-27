@@ -111,3 +111,62 @@ def friendlist(request):
     except Friend.DoesNotExist:
         friends = None
     return render(request, 'users/friendlist.html', {'friends': friends})
+
+@login_required
+def suggest(request):
+    u=User.objects.get(username=request.user)
+    l=[]
+    try:
+        ui = Interest.objects.get(user=u)
+        friend=Friend.objects.get(current_user=u)
+        friends = friend.users.all()
+        friends=list(friends)
+        for f in friends:
+            ft=Friend.objects.get(current_user=f)
+            fts=list(ft.users.all())
+            for x in fts:
+                l.append(x)
+            for f in fts:
+                ft1 = Friend.objects.get(current_user=f)
+                fts1 = list(ft1.users.all())
+                for x in fts1:
+                    l.append(x)
+    except:
+        pass
+    l=list(set(l))
+    if not l:
+        l=list(User.objects.all())
+    if u in l:
+         l.remove(u)
+    sug=[]
+    for f in l:
+        c=0
+        try:
+            ut=Interest.objects.get(user=f)
+            if ut.movie==ui.movie:
+                c+=1
+            if ut.music==ui.music:
+                c+=1
+            if ut.sports==ui.sports:
+                c+=1
+            if ut.food==ui.food:
+                c+=1
+            if c>=2:
+                sug.append(f)
+        except:
+            pass
+
+    try:
+        friend = Friend.objects.get(current_user=u)
+        friends = list(friend.users.all())
+        friends.append(u)
+        sug=set(sug)-set(friends)
+    except:
+        pass
+    sug = list(set(sug))
+    if not sug:
+        sug=list(User.objects.all())
+    if u in sug:
+        sug.remove(u)
+    return render(request,'users/suggestfrds.html',{'sug':sug})
+

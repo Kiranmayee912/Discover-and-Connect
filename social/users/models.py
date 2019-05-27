@@ -29,6 +29,9 @@ class Friend(models.Model):
         )
         friend.users.remove(new_friend)
 
+        def __str__(self):
+            return f'{self.current_user.username} Friends'
+
 
 class Interest(models.Model):
     movie = models.CharField(choices=MovieChoices, max_length=50, null=True, blank=True, default=MovieChoices[4][1])
@@ -36,3 +39,5 @@ class Interest(models.Model):
     food = models.CharField(choices=FoodChoices, max_length=50, null=True, blank=True, default=FoodChoices[4][1])
     sports = models.CharField(choices=SportsChoices, max_length=50, null=True, blank=True, default=SportsChoices[4][1])
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return f'{self.user.username} Interests'

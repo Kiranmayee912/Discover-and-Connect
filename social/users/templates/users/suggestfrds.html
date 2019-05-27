@@ -1,0 +1,11 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% for friend in sug %}
+        <a href="{% url 'timeline' friend.pk %}">{{friend.username}}</a>
+        <a href="{% url 'change_friends' operation='remove' pk=friend.pk %}">
+            <button type="button" class="btn btn-default">Follow</button>
+        </a>
+        </br>
+    {% endfor %}
+    {% endblock content %}
